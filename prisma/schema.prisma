@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  name          String
+  email         String     @unique
+  password      String
+  role          Role       @default(PATIENT)
+  isVerified    Boolean    @default(false)
+  sessions      Session[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+
+
+  id            String         @id @default(cuid())
+  doctorProfile DoctorProfile?
+  appointments  Appointment[]
+  bookings      Appointment[]  @relation("PatientAppointments")
+}
+
+
+model DoctorProfile {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialty    String
+  bio          String?
+  isApproved   Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  availabilities Availability[]
+  appointments Appointment[]
+}
+
+model Availability {
+  id             String        @id @default(cuid())
+  doctorProfileId String
+  doctorProfile  DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  date           DateTime
+  startTime      DateTime
+  endTime        DateTime
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  appointments   Appointment[]
+}
+
+model Appointment {
+  id             String       @id @default(cuid())
+  patientId      String
+  patient        User         @relation("PatientAppointments", fields: [patientId], references: [id])
+  doctorProfileId String
+  doctorProfile  DoctorProfile @relation(fields: [doctorProfileId], references: [id])
+  availabilityId String?
+  availability   Availability? @relation(fields: [availabilityId], references: [id])
+  status         AppointmentStatus @default(PENDING)
+  date           DateTime
+  startTime      DateTime
+  endTime        DateTime
+  notes          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  healthPackageId String?
+  healthPackage  HealthPackage? @relation(fields: [healthPackageId], references: [id])
+  doctorId       String
+  doctor         User         @relation(fields: [doctorId], references: [id])
+}
+
+model HealthPackage {
+  id          String       @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  duration    Int          // Duration in minutes
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  appointments Appointment[]
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  PATIENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELED
+  COMPLETED
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}
