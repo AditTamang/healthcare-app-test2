@@ -9,9 +9,12 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "MedConnect - Healthcare Appointment System",
+  title: "MedDoc - Healthcare Appointment System",
   description: "Book appointments with doctors online",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: "/Logo1.png",
+  },
 }
 
 export default function RootLayout({
@@ -29,9 +32,11 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <footer className="border-t py-6">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-                  <p className="text-center text-sm text-muted-foreground md:text-left">
-                    &copy; {new Date().getFullYear()} MedConnect. All rights reserved.
+                  <p className="w-full flex justify-center text-center text-lg md:text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    &copy; {new Date().getFullYear()} MedDoc. All rights reserved.
                   </p>
+
+
                 </div>
               </footer>
             </div>
@@ -46,3 +51,4 @@ export default function RootLayout({
 
 
 import './globals.css'
+import { MenubarShortcut } from "@/components/ui/menubar"

@@ -36,17 +36,17 @@ export function MainNav() {
 
   const authRoutes = user
     ? [
-        {
-          href: "/dashboard",
-          label: "Dashboard",
-          active: pathname === "/dashboard",
-        },
-        {
-          href: "/appointments",
-          label: "My Appointments",
-          active: pathname === "/appointments",
-        },
-      ]
+      {
+        href: "/dashboard",
+        label: "Dashboard",
+        active: pathname === "/dashboard",
+      },
+      {
+        href: "/appointments",
+        label: "My Appointments",
+        active: pathname === "/appointments",
+      },
+    ]
     : []
 
   const allRoutes = [...routes, ...authRoutes]
@@ -56,8 +56,11 @@ export function MainNav() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-bold text-xl md:text-2xl">MedConnect</span>
+            <span className="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+              MedDoc
+            </span>
           </Link>
+
           <nav className="hidden md:flex gap-6">
             {allRoutes.map((route) => (
               <Link

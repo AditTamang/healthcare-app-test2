@@ -20,7 +20,7 @@ export function HeroSection() {
                 <Link href="/register">Get Started</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link href="/doctors">Find Doctors</Link>
+                <Link href="/doctor">Find Doctors</Link>
               </Button>
             </div>
           </div>
@@ -28,7 +28,7 @@ export function HeroSection() {
             <img
               alt="Healthcare professionals"
               className="aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-              src="/placeholder.svg?height=550&width=750"
+              src="/doctorFront.jpg"
             />
           </div>
         </div>
